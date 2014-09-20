@@ -1,0 +1,371 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowSamples_GetUserFromSharePointGroup.GetUserFromSharePointGroup.Workflow" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="WorkflowSamples_GetUserFromSharePointGroup.GetUserFromSharePointGroup.Workflow_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:msdad="clr-namespace:Microsoft.SharePoint.DesignTime.Activities.Design;assembly=Microsoft.SharePoint.DesignTime.Activities.16.0.Design"
+ xmlns:p="http://schemas.microsoft.com/workflow/2012/07/xaml/activities"
+ xmlns:p1="wf://workflow.windows.net/$Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sn="clr-namespace:System.Net;assembly=System"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>Microsoft.Activities</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.SharePoint.DesignTime.Activities.16.0</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>WorkflowSamples-GetUserFromSharePointGroup</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="CheckIfGroupexists" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="p:DynamicValue" Name="ProductListItemProperties" />
+      <Variable x:TypeArguments="x:String" Name="uri" />
+      <Variable x:TypeArguments="x:String" Name="Appweburl" />
+      <Variable x:TypeArguments="p:DynamicValue" Name="ProductOwnersgroupResponse" />
+      <Variable x:TypeArguments="sn:HttpStatusCode" Name="Statuscode" />
+      <Variable x:TypeArguments="x:String" Name="RestApi" />
+      <Variable x:TypeArguments="x:String" Name="GroupName" />
+      <Variable x:TypeArguments="p:DynamicValue" Name="ProductOwnersgroupData" />
+    </Sequence.Variables>
+    <p1:LookupSPListItem ItemGuid="{x:Null}" Properties="{x:Null}" sap2010:WorkflowViewState.IdRef="LookupSPListItem_1">
+      <p1:LookupSPListItem.ItemId>
+        <InArgument x:TypeArguments="x:Int32">
+          <p:ExpressionContainerValue x:TypeArguments="x:Int32">
+            <p1:GetCurrentItemId />
+          </p:ExpressionContainerValue>
+        </InArgument>
+      </p1:LookupSPListItem.ItemId>
+      <p1:LookupSPListItem.ListId>
+        <InArgument x:TypeArguments="s:Guid">
+          <p:ExpressionContainerValue x:TypeArguments="s:Guid">
+            <p1:GetCurrentListId />
+          </p:ExpressionContainerValue>
+        </InArgument>
+      </p1:LookupSPListItem.ListId>
+      <p1:LookupSPListItem.Result>
+        <OutArgument x:TypeArguments="p:DynamicValue">
+          <mca:CSharpReference x:TypeArguments="p:DynamicValue">ProductListItemProperties</mca:CSharpReference>
+        </OutArgument>
+      </p1:LookupSPListItem.Result>
+    </p1:LookupSPListItem>
+    <p:GetODataProperties DisplayName="GetDynamicValueProperties" sap2010:WorkflowViewState.IdRef="GetODataProperties_1">
+      <p:GetODataProperties.Source>
+        <InArgument x:TypeArguments="p:DynamicValue">
+          <mca:CSharpValue x:TypeArguments="p:DynamicValue">ProductListItemProperties</mca:CSharpValue>
+        </InArgument>
+      </p:GetODataProperties.Source>
+      <scg:Dictionary x:TypeArguments="x:String, OutArgument">
+        <OutArgument x:TypeArguments="x:String" x:Key="__metadata/uri">
+          <mca:CSharpReference x:TypeArguments="x:String">uri</mca:CSharpReference>
+        </OutArgument>
+      </scg:Dictionary>
+    </p:GetODataProperties>
+    <Assign DisplayName="Decalring Group Name" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">
+          <mca:CSharpReference x:TypeArguments="x:String">GroupName</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">Product Owners</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Getting appweb url" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">
+          <mca:CSharpReference x:TypeArguments="x:String">Appweburl</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">uri.Substring(0,uri.IndexOf("_api"))</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Rest uri for Product Owners group" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">
+          <mca:CSharpReference x:TypeArguments="x:String">RestApi</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">string.Format("{0}_api/web/sitegroups/getbyname('" + GroupName + "')", Appweburl)</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <p:HttpSend DisplayName="Rest api call to get Product Owners group" sap2010:WorkflowViewState.IdRef="HttpSend_1" Method="GET">
+      <p:HttpSend.RequestHeaders>
+        <InArgument x:TypeArguments="p:DynamicValue">
+          <p:SetDynamicValueProperties>
+            <scg:Dictionary x:TypeArguments="x:String, InArgument">
+              <InArgument x:TypeArguments="x:String" x:Key="Accept">application/json;odata=verbose</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json;odata=verbose</InArgument>
+            </scg:Dictionary>
+          </p:SetDynamicValueProperties>
+        </InArgument>
+      </p:HttpSend.RequestHeaders>
+      <p:HttpSend.ResponseContent>
+        <OutArgument x:TypeArguments="p:DynamicValue">
+          <mca:CSharpReference x:TypeArguments="p:DynamicValue">ProductOwnersgroupResponse</mca:CSharpReference>
+        </OutArgument>
+      </p:HttpSend.ResponseContent>
+      <p:HttpSend.ResponseStatusCode>
+        <OutArgument x:TypeArguments="sn:HttpStatusCode">
+          <mca:CSharpReference x:TypeArguments="sn:HttpStatusCode">Statuscode</mca:CSharpReference>
+        </OutArgument>
+      </p:HttpSend.ResponseStatusCode>
+      <p:HttpSend.Uri>
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">RestApi</mca:CSharpValue>
+        </InArgument>
+      </p:HttpSend.Uri>
+    </p:HttpSend>
+    <If sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Condition>
+        <InArgument x:TypeArguments="x:Boolean">
+          <mca:CSharpValue x:TypeArguments="x:Boolean">Convert.ToString(Statuscode)=="OK"</mca:CSharpValue>
+        </InArgument>
+      </If.Condition>
+      <If.Then>
+        <Sequence DisplayName="Get All users from Product Owners group" sap2010:WorkflowViewState.IdRef="Sequence_1">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="p:DynamicValue" Name="ProductOwnersgroupUsersResponse" />
+            <Variable x:TypeArguments="p:DynamicValue" Name="ProductOwnersgroupUsersData" />
+            <Variable x:TypeArguments="sco:Collection(x:String)" Name="ProductOwnersgroupUserEmail" />
+            <Variable x:TypeArguments="x:String" Name="UserEmail" />
+          </Sequence.Variables>
+          <p1:WriteToHistory sap2010:WorkflowViewState.IdRef="WriteToHistory_1">
+            <p1:WriteToHistory.Message>
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String">"SharePoint Group : '"+ GroupName +"' is exist"</mca:CSharpValue>
+              </InArgument>
+            </p1:WriteToHistory.Message>
+          </p1:WriteToHistory>
+          <Assign DisplayName="Rest uri for User in Product Owner group" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">
+                <mca:CSharpReference x:TypeArguments="x:String">RestApi</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String">RestApi + "/users"</mca:CSharpValue>
+              </InArgument>
+            </Assign.Value>
+          </Assign>
+          <p:HttpSend DisplayName="Rest api call to get users from Product Owners group" sap2010:WorkflowViewState.IdRef="HttpSend_2" Method="GET">
+            <p:HttpSend.RequestHeaders>
+              <InArgument x:TypeArguments="p:DynamicValue">
+                <p:SetDynamicValueProperties>
+                  <scg:Dictionary x:TypeArguments="x:String, InArgument">
+                    <InArgument x:TypeArguments="x:String" x:Key="Accept">application/json;odata=verbose</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json;odata=verbose</InArgument>
+                  </scg:Dictionary>
+                </p:SetDynamicValueProperties>
+              </InArgument>
+            </p:HttpSend.RequestHeaders>
+            <p:HttpSend.ResponseContent>
+              <OutArgument x:TypeArguments="p:DynamicValue">
+                <mca:CSharpReference x:TypeArguments="p:DynamicValue">ProductOwnersgroupUsersResponse</mca:CSharpReference>
+              </OutArgument>
+            </p:HttpSend.ResponseContent>
+            <p:HttpSend.Uri>
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String">RestApi</mca:CSharpValue>
+              </InArgument>
+            </p:HttpSend.Uri>
+          </p:HttpSend>
+          <p:GetDynamicValueProperty x:TypeArguments="p:DynamicValue" sap2010:WorkflowViewState.IdRef="GetDynamicValueProperty`1_2" PropertyName="d/results">
+            <p:GetDynamicValueProperty.Result>
+              <OutArgument x:TypeArguments="p:DynamicValue">
+                <mca:CSharpReference x:TypeArguments="p:DynamicValue">ProductOwnersgroupUsersData</mca:CSharpReference>
+              </OutArgument>
+            </p:GetDynamicValueProperty.Result>
+            <p:GetDynamicValueProperty.Source>
+              <InArgument x:TypeArguments="p:DynamicValue">
+                <mca:CSharpValue x:TypeArguments="p:DynamicValue">ProductOwnersgroupUsersResponse</mca:CSharpValue>
+              </InArgument>
+            </p:GetDynamicValueProperty.Source>
+          </p:GetDynamicValueProperty>
+          <p:BuildCollection x:TypeArguments="x:String" DisplayName="Initialize Product Owners Email" sap2010:WorkflowViewState.IdRef="BuildCollection`1_1">
+            <p:BuildCollection.Result>
+              <OutArgument x:TypeArguments="sco:Collection(x:String)">
+                <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">ProductOwnersgroupUserEmail</mca:CSharpReference>
+              </OutArgument>
+            </p:BuildCollection.Result>
+          </p:BuildCollection>
+          <ForEach x:TypeArguments="p:DynamicValue" DisplayName="ForEach&lt;DynamicValue&gt;" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
+            <ForEach.Values>
+              <InArgument x:TypeArguments="scg:IEnumerable(p:DynamicValue)">
+                <mca:CSharpValue x:TypeArguments="scg:IEnumerable(p:DynamicValue)">ProductOwnersgroupUsersData</mca:CSharpValue>
+              </InArgument>
+            </ForEach.Values>
+            <ActivityAction x:TypeArguments="p:DynamicValue">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="p:DynamicValue" Name="item" />
+              </ActivityAction.Argument>
+              <Sequence DisplayName="Get Product Owner email address" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                <p:GetDynamicValueProperty x:TypeArguments="x:String" DisplayName="Get Product Owner email" sap2010:WorkflowViewState.IdRef="GetDynamicValueProperty`1_3" PropertyName="Email">
+                  <p:GetDynamicValueProperty.Result>
+                    <OutArgument x:TypeArguments="x:String">
+                      <mca:CSharpReference x:TypeArguments="x:String">UserEmail</mca:CSharpReference>
+                    </OutArgument>
+                  </p:GetDynamicValueProperty.Result>
+                  <p:GetDynamicValueProperty.Source>
+                    <InArgument x:TypeArguments="p:DynamicValue">
+                      <mca:CSharpValue x:TypeArguments="p:DynamicValue">item</mca:CSharpValue>
+                    </InArgument>
+                  </p:GetDynamicValueProperty.Source>
+                </p:GetDynamicValueProperty>
+                <AddToCollection x:TypeArguments="x:String" DisplayName="Adding Product Owners to collection" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1">
+                  <AddToCollection.Item>
+                    <InArgument x:TypeArguments="x:String">
+                      <mca:CSharpValue x:TypeArguments="x:String">UserEmail</mca:CSharpValue>
+                    </InArgument>
+                  </AddToCollection.Item>
+                  <InArgument x:TypeArguments="scg:ICollection(x:String)">
+                    <mca:CSharpValue x:TypeArguments="scg:ICollection(x:String)">ProductOwnersgroupUserEmail</mca:CSharpValue>
+                  </InArgument>
+                </AddToCollection>
+                <p1:WriteToHistory sap2010:WorkflowViewState.IdRef="WriteToHistory_4">
+                  <p1:WriteToHistory.Message>
+                    <InArgument x:TypeArguments="x:String">
+                      <mca:CSharpValue x:TypeArguments="x:String">string.Format("Product Owner member email : {0}", UserEmail)</mca:CSharpValue>
+                    </InArgument>
+                  </p1:WriteToHistory.Message>
+                </p1:WriteToHistory>
+              </Sequence>
+            </ActivityAction>
+          </ForEach>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="x:String" Name="Errormessage" />
+          </Sequence.Variables>
+          <p1:WriteToHistory sap2010:WorkflowViewState.IdRef="WriteToHistory_2">
+            <p1:WriteToHistory.Message>
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String">"Error while retrieving SharePoint Group :' " + GroupName + "' Information. Status Code : " + Convert.ToString(Statuscode)</mca:CSharpValue>
+              </InArgument>
+            </p1:WriteToHistory.Message>
+          </p1:WriteToHistory>
+          <p:GetDynamicValueProperty x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="GetDynamicValueProperty`1_1" PropertyName="error/message/value">
+            <p:GetDynamicValueProperty.Result>
+              <OutArgument x:TypeArguments="x:String">
+                <mca:CSharpReference x:TypeArguments="x:String">Errormessage</mca:CSharpReference>
+              </OutArgument>
+            </p:GetDynamicValueProperty.Result>
+            <p:GetDynamicValueProperty.Source>
+              <InArgument x:TypeArguments="p:DynamicValue">
+                <mca:CSharpValue x:TypeArguments="p:DynamicValue">ProductOwnersgroupResponse</mca:CSharpValue>
+              </InArgument>
+            </p:GetDynamicValueProperty.Source>
+          </p:GetDynamicValueProperty>
+          <p1:WriteToHistory sap2010:WorkflowViewState.IdRef="WriteToHistory_3">
+            <p1:WriteToHistory.Message>
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String" xml:space="preserve">"Error message while querying SharePoint group " + GroupName +":  " +Errormessage.ToString()</mca:CSharpValue>
+              </InArgument>
+            </p1:WriteToHistory.Message>
+          </p1:WriteToHistory>
+        </Sequence>
+      </If.Else>
+    </If>
+    <sads:DebugSymbol.Symbol>d5wBQzpcRGV2ZW5kcmFcQnVzaW5lc3NcV29ya2Zsb3dTYW1wbGVzLUdldFVzZXJGcm9tU2hhcmVQb2ludEdyb3VwXFdvcmtmbG93U2FtcGxlcy1HZXRVc2VyRnJvbVNoYXJlUG9pbnRHcm91cFxXb3JrZmxvd1xHZXRVc2VyRnJvbVNoYXJlUG9pbnRHcm91cFxXb3JrZmxvdy54YW1sRSwDrwIOAgEBNwVLGwMB6QJMBVccAwHWAlgFYQ4DAcsCYgVtDgMBuAJuBXkOAwGlAnoFlAESAwGFApUBBa0CCgIBAkELQygDAfQCSAtIcAMB6wI6CzwoAwHqAlQLVFQDAeACTwtPaAMB1wJfMF8+AwHVAlsLW1oDAcwCagtqbQMBwgJlC2VaAwG5AnYLdpoBAwGvAnELcVgDAaYCfQuCASkDAaICjAELjAFkAwGZApEBC5EBUAMBkAKHAQuHAXEDAYcCen16ggEDAYYCmAELmAFsAgEDnAEJigIUAgE5jQIJqwIUAgEMQg1CJAQB9AIBOw07JAQB6gIBf0V/YwMBpAKAAUuAAWkDAaMCowELqQEfAwH3AaoBC7UBFAMB3AG2AQvLARgDAb0BzAEL1wEnAwGhAdgBC94BHwMBkwHfAQuJAhUCATqRAguXAh8CAS6YAgujAicCARikAguqAh8CAQ2mARGmAX4DAfgBsgERsgFhAwHqAa0BEa0BXgMB3QG5ARG+AS8DAdkByAERyAFWAwHMAcMBEcMBfAMBvwG2AY4BtgGTAQMBvgHPARHPAXgDAbAB1AER1AF0AwGjAcwBkgHMAZ0BAwGiAdsBEdsBggEDAZQB4gER4gGBAQMBhgHpAQ+HAhoCATuUAhGUAskBAgEvmwIRmwJjAgEkoAIRoAJvAgEamAKMAZgCoQECARmnAhGnAsABAgEOuwFLuwFpAwHbAbwBUbwBbwMB2gHqARH1AS0CAWj2ARH/ASMCAUuAAhGGAiUCATztARftAWYCAXjyARfyAV8CAWrqAbgB6gG/AQIBaf0BFf0BfwIBWvkBF/kBXgIBTIMCF4MCkQECAT0=</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="LookupSPListItem_1" sap:VirtualizedContainerService.HintSize="556,89">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <scg:Dictionary x:TypeArguments="x:String, msdad:ViewStateNameValue" x:Key="SPLocalizedDisplayNames">
+              <msdad:ViewStateNameValue x:Key="ItemId" DisplayName="(current item)" Value="$CurrentItemId" />
+              <msdad:ViewStateNameValue x:Key="ListId" DisplayName="(current list)" Value="$CurrentListId" />
+            </scg:Dictionary>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="GetODataProperties_1" sap:VirtualizedContainerService.HintSize="556,92">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:String x:Key="Properties.SelectedEntityType">Lists/Products</x:String>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="556,62" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="556,62" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="556,62" />
+      <sap2010:ViewStateData Id="HttpSend_1" sap:VirtualizedContainerService.HintSize="556,62" />
+      <sap2010:ViewStateData Id="WriteToHistory_1" sap:VirtualizedContainerService.HintSize="287,68" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="287,62" />
+      <sap2010:ViewStateData Id="HttpSend_2" sap:VirtualizedContainerService.HintSize="287,62" />
+      <sap2010:ViewStateData Id="GetDynamicValueProperty`1_2" sap:VirtualizedContainerService.HintSize="287,22" />
+      <sap2010:ViewStateData Id="BuildCollection`1_1" sap:VirtualizedContainerService.HintSize="287,22" />
+      <sap2010:ViewStateData Id="GetDynamicValueProperty`1_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="AddToCollection`1_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WriteToHistory_4" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="222,316">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="287,466" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="309,1026">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteToHistory_2" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="GetDynamicValueProperty`1_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WriteToHistory_3" sap:VirtualizedContainerService.HintSize="200,68" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="222,362">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="556,1176" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="578,1969">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WorkflowSamples_GetUserFromSharePointGroup.GetUserFromSharePointGroup.Workflow_1" sap:VirtualizedContainerService.HintSize="618,2049" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

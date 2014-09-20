@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="15935727-d3ae-4eaf-bb0a-2851672c1d1c" 
+        solutionId="15935727-d3ae-4eaf-bb0a-2851672c1d1c" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="WorkflowSamples_GetUserFromSharePointGroup"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="17a2c301-b055-4e15-b1a9-72aa28faa52b" />
+  </features>
+</package>
